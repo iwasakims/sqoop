@@ -39,11 +39,24 @@ public enum ConnectorError implements ErrorCode {
   /** An exception occurred while attempting to instantiate the connector. */
   CONN_0005("Failed to instantiate connector class"),
 
-  /** More than one connectors use the short name resulting in conflict. */
-  CONN_0006("More than one connector uses the same short name"),
+  /** More than one connectors use the same name resulting in conflict. */
+  CONN_0006("More than one connector uses the same name"),
 
   /** The registration of connector during system initialization failed.*/
-  CONN_0007("Connector registration failed");
+  CONN_0007("Connector registration failed"),
+
+  /** The configuration of connector does not specify it's unique name. */
+  CONN_0008("No name specified for connector"),
+
+  /**
+   * A connector is being registered with the same name as what has been
+   * previously registered. Or the connector being registered is the same but
+   * it's metadata has changed in an incompatible manner since the last time it
+   * was registered.
+   */
+  CONN_0009("Attempt to register connector with a name associated with a "
+      + "previously registered connector; or the connector metadata has "
+      + "changed since it was registered previously.");
 
   private final String message;
 

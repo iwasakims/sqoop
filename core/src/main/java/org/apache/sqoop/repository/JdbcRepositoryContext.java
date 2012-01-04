@@ -161,7 +161,7 @@ public final class JdbcRepositoryContext {
   }
 
   void initialize(DataSource source, JdbcRepositoryTransactionFactory factory) {
-    if (source != null || factory != null) {
+    if (dataSource != null || txFactory != null) {
       throw new SqoopException(RepositoryError.JDBCREPO_0011);
     }
 

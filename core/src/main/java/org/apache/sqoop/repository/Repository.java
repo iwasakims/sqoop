@@ -17,6 +17,8 @@
  */
 package org.apache.sqoop.repository;
 
+import org.apache.sqoop.repository.model.MConnector;
+
 
 /**
  * Defines the contract of a Repository used by Sqoop. A Repository allows
@@ -27,6 +29,15 @@ public interface Repository {
 
   public RepositoryTransaction getTransaction();
 
-  public void registerConnector(
-      String connectorShortName, String connectorCanonicalName);
+  /**
+   * Registers the given connector in the repository. If the connector was
+   * already registered, its associated metadata is returned from the
+   * repository.
+   *
+   * @param mConnector the connector metadata to be registered
+   * @return <tt>null</tt> if the connector was successfully registered or
+   * a instance of previously registered metadata with the same connector
+   * unique name.
+   */
+  public MConnector registerConnector(MConnector mConnector);
 }

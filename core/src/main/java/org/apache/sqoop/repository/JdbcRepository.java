@@ -20,6 +20,7 @@ package org.apache.sqoop.repository;
 import java.sql.Connection;
 
 import org.apache.log4j.Logger;
+import org.apache.sqoop.connector.ConnectorHandler;
 import org.apache.sqoop.core.SqoopException;
 import org.apache.sqoop.repository.model.MConnector;
 
@@ -43,27 +44,19 @@ public class JdbcRepository implements Repository {
   }
 
   @Override
-  public void registerConnector(String shortName,
-      String canonicalName) {
+  public MConnector registerConnector(MConnector mConnector) {
+    MConnector result = null;
     JdbcRepositoryTransaction tx = null;
+    String connectorUniqueName = mConnector.getUniqueName();
     try {
       tx = getTransaction();
       tx.begin();
       Connection conn = tx.getConnection();
-      MConnector connector = handler.findConnector(shortName, conn);
-      if (connector == null) {
-        // Insert (Register) connector
-      } else {
-        if (connector.getCanonicalName().equals(canonicalName)) {
-          // Already Registered
-          LOG.info("Connector (" + shortName + ":" + canonicalName
-              + ") already registered");
-        } else {
-          throw new SqoopException(RepositoryError.JDBCREPO_0013,
-              "(" + shortName + ":" + canonicalName + ") != ("
-              + connector.getShortName() + ":" + connector.getCanonicalName()
-              + ")");
-        }
+      result = handler.findConnector(connectorUniqueName, conn);
+      if (result == null) {
+        // Insert (Register) connector FIXME
+
+
       }
       tx.commit();
     } catch (Exception ex) {
@@ -74,12 +67,13 @@ public class JdbcRepository implements Repository {
         throw (SqoopException) ex;
       }
       throw new SqoopException(RepositoryError.JDBCREPO_0012,
-          "(" + shortName + ":" + canonicalName + ")", ex);
+          mConnector.toString(), ex);
     } finally {
       if (tx != null) {
         tx.close();
       }
     }
-  }
 
+    return result;
+  }
 }

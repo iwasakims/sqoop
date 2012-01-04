@@ -31,6 +31,7 @@ import org.apache.sqoop.core.SqoopException;
 import org.apache.sqoop.repository.Repository;
 import org.apache.sqoop.repository.RepositoryManager;
 import org.apache.sqoop.repository.RepositoryTransaction;
+import org.apache.sqoop.repository.model.MConnector;
 
 public class ConnectorManager {
 
@@ -78,7 +79,7 @@ public class ConnectorManager {
       for (URL url : connectorConfigs) {
         ConnectorHandler handler = new ConnectorHandler(url);
         ConnectorHandler handlerOld =
-            handlerMap.put(handler.getShortName(), handler);
+            handlerMap.put(handler.getUniqueName(), handler);
         if (handlerOld != null) {
           throw new SqoopException(ConnectorError.CONN_0006,
               handler + ", " + handlerOld);
@@ -103,8 +104,18 @@ public class ConnectorManager {
       rtx = repository.getTransaction();
       rtx.begin();
       for (String name : handlerMap.keySet()) {
-        String connectorCanonicalName = handlerMap.get(name).getCanonicalName();
-        repository.registerConnector(name, connectorCanonicalName);
+        ConnectorHandler handler = handlerMap.get(name);
+        MConnector connectorMetadata = handler.getMetadata();
+        MConnector registeredMetadata =
+            repository.registerConnector(connectorMetadata);
+        if (registeredMetadata != null) {
+          // Verify that the connector metadata is the same
+          if (!registeredMetadata.equals(connectorMetadata)) {
+            throw new SqoopException(ConnectorError.CONN_0009,
+                "To register: " + connectorMetadata + "; already registered: "
+                + registeredMetadata);
+          }
+        }
       }
       rtx.commit();
     } catch (Exception ex) {

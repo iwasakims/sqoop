@@ -24,6 +24,7 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.apache.sqoop.core.ConfigurationConstants;
 import org.apache.sqoop.core.SqoopException;
+import org.apache.sqoop.repository.model.MConnector;
 import org.apache.sqoop.spi.SqoopConnector;
 
 public final class ConnectorHandler {
@@ -34,8 +35,10 @@ public final class ConnectorHandler {
 
   private final String connectorUrl;
   private final String connectorClassName;
-  private final String connectorShortName;
+  private final String connectorUniqueName;
   private final SqoopConnector connector;
+
+  private final MConnector mConnector;
 
   public ConnectorHandler(URL configFileUrl) {
     connectorUrl = configFileUrl.toString();
@@ -46,12 +49,21 @@ public final class ConnectorHandler {
           configFileUrl.toString(), ex);
     }
 
-    connectorClassName =
-        properties.getProperty(ConfigurationConstants.CONPROP_PROVIDER_CLASS);
+    connectorClassName = properties.getProperty(
+        ConfigurationConstants.CONPROP_PROVIDER_CLASS);
 
     if (connectorClassName == null || connectorClassName.trim().length() == 0) {
       throw new SqoopException(ConnectorError.CONN_0004,
           ConfigurationConstants.CONPROP_PROVIDER_CLASS);
+    }
+
+
+    connectorUniqueName = properties.getProperty(
+        ConfigurationConstants.CONNPROP_CONNECTOR_NAME);
+
+    if (connectorUniqueName == null || connectorUniqueName.trim().length() == 0)
+    {
+      throw new SqoopException(ConnectorError.CONN_0008, connectorClassName);
     }
 
     Class<?> connectorClass = null;
@@ -61,8 +73,6 @@ public final class ConnectorHandler {
       throw new SqoopException(ConnectorError.CONN_0005,
               connectorClassName, ex);
     }
-
-    connectorShortName = connectorClass.getSimpleName();
 
     try {
       connector = (SqoopConnector) connectorClass.newInstance();
@@ -74,25 +84,32 @@ public final class ConnectorHandler {
           connectorClassName, ex);
     }
 
+    // Initialize Metadata
+    mConnector = new MConnector(connectorUniqueName, connectorClassName);
+
     if (LOG.isInfoEnabled()) {
       LOG.info("Connector [" + connectorClassName + "] initialized.");
     }
   }
 
   public String toString() {
-    return "{" + connectorShortName + ":" + connectorClassName
+    return "{" + connectorUniqueName + ":" + connectorClassName
         + ":" + connectorUrl + "}";
   }
 
-  public String getShortName() {
-    return connectorShortName;
+  public String getUniqueName() {
+    return connectorUniqueName;
   }
 
-  public String getCanonicalName() {
+  public String getConnectorClassName() {
     return connectorClassName;
   }
 
   public String getConnectorUrl() {
     return connectorUrl;
+  }
+
+  public MConnector getMetadata() {
+    return mConnector;
   }
 }

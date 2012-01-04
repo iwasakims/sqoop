@@ -15,31 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.sqoop.repository.model;
+package org.apache.sqoop.server.v1;
 
-public class MConnector {
+import org.apache.sqoop.common.JsonBean;
+import org.apache.sqoop.server.RequestContext;
+import org.apache.sqoop.server.SqoopProtocolServlet;
 
-  private String uniqueName;
-  private String className;
-
-  public MConnector(String uniqueName, String className) {
-    this.uniqueName = uniqueName;
-    this.className = className;
-  }
-
-  public String getUniqueName() {
-    return uniqueName;
-  }
-
-  public String getClassName() {
-    return className;
-  }
+/**
+ * Displays the list of connectors that are available in the system via
+ * a GET request.
+ */
+@SuppressWarnings("serial")
+public class ConnectorServlet extends SqoopProtocolServlet {
 
   @Override
-  public boolean equals(Object other) {
-
-
-    return false;
+  protected JsonBean handleGetRequest(RequestContext ctx) throws Exception {
+    // TODO Auto-generated method stub
+    return super.handleGetRequest(ctx);
   }
-
 }

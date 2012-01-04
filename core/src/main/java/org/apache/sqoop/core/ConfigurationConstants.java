@@ -56,7 +56,10 @@ public final class ConfigurationConstants {
       "sqoopconnector.properties";
 
   public static final String CONPROP_PROVIDER_CLASS =
-      "org.apache.sqoop.connector";
+      "org.apache.sqoop.connector.class";
+
+  public static final String CONNPROP_CONNECTOR_NAME =
+      "org.apache.sqoop.connector.name";
 
 
   private ConfigurationConstants() {
