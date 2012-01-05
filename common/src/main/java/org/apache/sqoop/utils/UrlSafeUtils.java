@@ -15,15 +15,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.sqoop.spi;
+package org.apache.sqoop.utils;
 
-public enum ParameterType {
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
-  BOOLEAN,
+/**
+ * Miscellaneous utility methods that help in URL-safe communication over HTTP.
+ */
+public final class UrlSafeUtils {
 
-  STRING,
+  public static final String ENCODING_UTF8 = "UTF-8";
 
-  SINGLE_CHOICE,
+  public static String urlEncode(String string) {
+    try {
+      return URLEncoder.encode(string, ENCODING_UTF8);
+    } catch (UnsupportedEncodingException uee) {
+      throw new RuntimeException(uee);
+    }
+  }
 
-  MULTIPLE_CHOICE;
+  public static String urlDecode(String string) {
+    try {
+      return URLDecoder.decode(string, ENCODING_UTF8);
+    } catch (UnsupportedEncodingException uee) {
+      throw new RuntimeException(uee);
+    }
+  }
+
+
+  private UrlSafeUtils() {
+    // Disable explicit object creation
+  }
 }

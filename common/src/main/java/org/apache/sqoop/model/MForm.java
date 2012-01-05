@@ -15,31 +15,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.sqoop.repository.model;
+package org.apache.sqoop.model;
 
-public class MConnector {
+import java.util.List;
 
-  private String uniqueName;
-  private String className;
+/**
+ * Represents a group of inputs that are processed together. This allows the
+ * input gathering process to be broken down into multiple steps that can be
+ * then paged through by the user interface.
+ */
+public final class MForm extends MNamedElement {
 
-  public MConnector(String uniqueName, String className) {
-    this.uniqueName = uniqueName;
-    this.className = className;
+  private final List<MInput<?>> inputs;
+
+  public MForm(String name, List<MInput<?>> inputs) {
+    super(name);
+
+    this.inputs = inputs;
   }
 
-  public String getUniqueName() {
-    return uniqueName;
-  }
-
-  public String getClassName() {
-    return className;
+  public List<MInput<?>> getInputs() {
+    return inputs;
   }
 
   @Override
-  public boolean equals(Object other) {
+  public String toString() {
+    StringBuilder sb = new StringBuilder("form-").append(getName());
+    sb.append(":").append(inputs);
 
-
-    return false;
+    return sb.toString();
   }
-
 }

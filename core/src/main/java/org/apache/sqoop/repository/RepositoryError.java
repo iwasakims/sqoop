@@ -49,7 +49,7 @@ public enum RepositoryError implements ErrorCode {
   /** The value specified for maximum connection pool connections is invalid.*/
   JDBCREPO_0005("Invalid maximum connections specified for connection pool"),
 
-  /** The system attempted to use an incactive transaction. */
+  /** The system attempted to use an inactive transaction. */
   JDBCREPO_0006("Transaction is not active"),
 
   /**

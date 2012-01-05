@@ -17,11 +17,22 @@
  */
 package org.apache.sqoop.spi;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.sqoop.model.MForm;
+
+/**
+ * Service provider interface for Sqoop Connectors.
+ */
 public interface SqoopConnector {
 
+  /**
+   * @param locale
+   * @return the resource bundle associated with the given locale.
+   */
   public ResourceBundle getBundle(Locale locale);
 
+  public List<MForm> getConnectionForms();
 }

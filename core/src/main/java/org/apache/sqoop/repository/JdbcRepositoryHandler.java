@@ -19,7 +19,7 @@ package org.apache.sqoop.repository;
 
 import java.sql.Connection;
 
-import org.apache.sqoop.repository.model.MConnector;
+import org.apache.sqoop.model.MConnector;
 
 public interface JdbcRepositoryHandler {
 

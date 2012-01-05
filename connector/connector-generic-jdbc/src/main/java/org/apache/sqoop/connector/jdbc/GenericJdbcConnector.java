@@ -17,17 +17,60 @@
  */
 package org.apache.sqoop.connector.jdbc;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.sqoop.model.MForm;
+import org.apache.sqoop.model.MInput;
+import org.apache.sqoop.model.MMapInput;
+import org.apache.sqoop.model.MStringInput;
 import org.apache.sqoop.spi.SqoopConnector;
 
 public class GenericJdbcConnector implements SqoopConnector {
 
+  private static final List<MForm> CONNECTION_FORMS = new ArrayList<MForm>();
+
+  static {
+    // Build the connection form
+    List<MInput<?>> connFormInputs = new ArrayList<MInput<?>>();
+
+    MStringInput jdbcDriver = new MStringInput(
+        GenericJdbcConnectorConstants.INPUT_CONN_JDBCDRIVER, false, 128);
+    connFormInputs.add(jdbcDriver);
+
+    MStringInput connectString = new MStringInput(
+        GenericJdbcConnectorConstants.INPUT_CONN_CONNECTSTRING, false, 128);
+    connFormInputs.add(connectString);
+
+    MStringInput username = new MStringInput(
+        GenericJdbcConnectorConstants.INPUT_CONN_USERNAME, false, 36);
+    connFormInputs.add(username);
+
+    MStringInput password = new MStringInput(
+        GenericJdbcConnectorConstants.INPUT_CONN_PASSWORD, true, 10);
+    connFormInputs.add(password);
+
+    MMapInput jdbcProperties = new MMapInput(
+        GenericJdbcConnectorConstants.INPUT_CONN_JDBCPROPS);
+    connFormInputs.add(jdbcProperties);
+
+    MForm connForm = new MForm(GenericJdbcConnectorConstants.FORM_CONNECTION,
+        connFormInputs);
+
+    CONNECTION_FORMS.add(connForm);
+  }
+
   @Override
   public ResourceBundle getBundle(Locale locale) {
-    // TODO Auto-generated method stub
-    return null;
+    return ResourceBundle.getBundle(
+        GenericJdbcConnectorConstants.RESOURCE_BUNDLE_NAME, locale);
+  }
+
+  @Override
+  public List<MForm> getConnectionForms() {
+    return CONNECTION_FORMS;
   }
 
 }

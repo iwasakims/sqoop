@@ -31,7 +31,7 @@ import org.apache.sqoop.core.SqoopException;
 import org.apache.sqoop.repository.Repository;
 import org.apache.sqoop.repository.RepositoryManager;
 import org.apache.sqoop.repository.RepositoryTransaction;
-import org.apache.sqoop.repository.model.MConnector;
+import org.apache.sqoop.model.MConnector;
 
 public class ConnectorManager {
 

@@ -17,6 +17,8 @@
  */
 package org.apache.sqoop.repository.derby;
 
+import static org.apache.sqoop.repository.derby.DerbySchemaQuery.*;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -27,11 +29,10 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.apache.sqoop.core.SqoopException;
+import org.apache.sqoop.model.MConnector;
 import org.apache.sqoop.repository.JdbcRepositoryContext;
 import org.apache.sqoop.repository.JdbcRepositoryHandler;
 import org.apache.sqoop.repository.JdbcRepositoryTransactionFactory;
-import org.apache.sqoop.repository.Repository;
-import org.apache.sqoop.repository.model.MConnector;
 
 public class DerbyRepositoryHandler implements JdbcRepositoryHandler {
 
@@ -100,8 +101,10 @@ public class DerbyRepositoryHandler implements JdbcRepositoryHandler {
   }
 
   public void createSchema() {
-    runQuery(DerbySchemaQuery.QUERY_CREATE_SCHEMA_SQOOP);
-    runQuery(DerbySchemaQuery.QUERY_CREATE_TABLE_SQ_CONNECTOR);
+    runQuery(QUERY_CREATE_SCHEMA_SQOOP);
+    runQuery(QUERY_CREATE_TABLE_SQ_CONNECTOR);
+    runQuery(QUERY_CREATE_TABLE_SQ_FORM);
+    runQuery(QUERY_CREATE_TABLE_SQ_INPUT);
   }
 
   public boolean schemaExists() {

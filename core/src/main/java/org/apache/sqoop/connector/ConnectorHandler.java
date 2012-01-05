@@ -19,12 +19,14 @@ package org.apache.sqoop.connector;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.apache.sqoop.core.ConfigurationConstants;
 import org.apache.sqoop.core.SqoopException;
-import org.apache.sqoop.repository.model.MConnector;
+import org.apache.sqoop.model.MConnector;
+import org.apache.sqoop.model.MForm;
 import org.apache.sqoop.spi.SqoopConnector;
 
 public final class ConnectorHandler {
@@ -48,6 +50,8 @@ public final class ConnectorHandler {
       throw new SqoopException(ConnectorError.CONN_0003,
           configFileUrl.toString(), ex);
     }
+
+    LOG.debug("Connector configuration: " + properties);
 
     connectorClassName = properties.getProperty(
         ConfigurationConstants.CONPROP_PROVIDER_CLASS);
@@ -85,7 +89,8 @@ public final class ConnectorHandler {
     }
 
     // Initialize Metadata
-    mConnector = new MConnector(connectorUniqueName, connectorClassName);
+    mConnector = new MConnector(connectorUniqueName, connectorClassName,
+        new ArrayList<MForm>(), new ArrayList<MForm>());
 
     if (LOG.isInfoEnabled()) {
       LOG.info("Connector [" + connectorClassName + "] initialized.");

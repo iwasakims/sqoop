@@ -17,15 +17,23 @@
  */
 package org.apache.sqoop.connector.mysqljdbc;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.sqoop.model.MForm;
 import org.apache.sqoop.spi.SqoopConnector;
 
 public class MySqlJdbcConnector implements SqoopConnector {
 
   @Override
   public ResourceBundle getBundle(Locale locale) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public List<MForm> getConnectionForms() {
     // TODO Auto-generated method stub
     return null;
   }
