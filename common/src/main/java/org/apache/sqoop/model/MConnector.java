@@ -20,7 +20,7 @@ package org.apache.sqoop.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class MConnector {
+public final class MConnector extends MPersistableEntity {
 
   private final String uniqueName;
   private final String className;
@@ -54,8 +54,8 @@ public final class MConnector {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("connector-");
-    sb.append(uniqueName).append(":").append(className);
-    sb.append("; conn-forms:").append(connectionForms);
+    sb.append(uniqueName).append(":").append(getPersistenceId()).append(":");
+    sb.append(className).append("; conn-forms:").append(connectionForms);
     sb.append("; job-forms:").append(jobForms);
 
     return sb.toString();
@@ -72,8 +72,10 @@ public final class MConnector {
     }
 
     MConnector mc = (MConnector) other;
-    return (uniqueName.equals(mc.uniqueName) &&
-        className.equals(mc.className));
+    return (uniqueName.equals(mc.uniqueName)
+        && className.equals(mc.className))
+        && connectionForms.equals(mc.connectionForms)
+        && jobForms.equals(mc.jobForms);
   }
 
   @Override
@@ -81,6 +83,12 @@ public final class MConnector {
     int result = 23;
     result = 31 * result + uniqueName.hashCode();
     result = 31 * result + className.hashCode();
+    for (MForm cmf : connectionForms) {
+      result = 31 * result + cmf.hashCode();
+    }
+    for (MForm jmf : jobForms) {
+      result = 31 * result + jmf.hashCode();
+    }
 
     return result;
   }
@@ -92,5 +100,4 @@ public final class MConnector {
   public List<MForm> getJobForms() {
     return jobForms;
   }
-
 }

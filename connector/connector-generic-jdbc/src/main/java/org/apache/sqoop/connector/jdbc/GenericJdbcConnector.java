@@ -26,30 +26,33 @@ import org.apache.sqoop.model.MForm;
 import org.apache.sqoop.model.MInput;
 import org.apache.sqoop.model.MMapInput;
 import org.apache.sqoop.model.MStringInput;
-import org.apache.sqoop.spi.SqoopConnector;
+import org.apache.sqoop.connector.spi.SqoopConnector;
 
 public class GenericJdbcConnector implements SqoopConnector {
 
   private static final List<MForm> CONNECTION_FORMS = new ArrayList<MForm>();
+  private static final List<MForm> JOB_FORMS = new ArrayList<MForm>();
 
   static {
     // Build the connection form
     List<MInput<?>> connFormInputs = new ArrayList<MInput<?>>();
 
     MStringInput jdbcDriver = new MStringInput(
-        GenericJdbcConnectorConstants.INPUT_CONN_JDBCDRIVER, false, 128);
+        GenericJdbcConnectorConstants.INPUT_CONN_JDBCDRIVER, false,
+        (short) 128);
     connFormInputs.add(jdbcDriver);
 
     MStringInput connectString = new MStringInput(
-        GenericJdbcConnectorConstants.INPUT_CONN_CONNECTSTRING, false, 128);
+        GenericJdbcConnectorConstants.INPUT_CONN_CONNECTSTRING, false,
+        (short) 128);
     connFormInputs.add(connectString);
 
     MStringInput username = new MStringInput(
-        GenericJdbcConnectorConstants.INPUT_CONN_USERNAME, false, 36);
+        GenericJdbcConnectorConstants.INPUT_CONN_USERNAME, false, (short) 36);
     connFormInputs.add(username);
 
     MStringInput password = new MStringInput(
-        GenericJdbcConnectorConstants.INPUT_CONN_PASSWORD, true, 10);
+        GenericJdbcConnectorConstants.INPUT_CONN_PASSWORD, true, (short) 10);
     connFormInputs.add(password);
 
     MMapInput jdbcProperties = new MMapInput(
@@ -71,6 +74,11 @@ public class GenericJdbcConnector implements SqoopConnector {
   @Override
   public List<MForm> getConnectionForms() {
     return CONNECTION_FORMS;
+  }
+
+  @Override
+  public List<MForm> getJobForms() {
+    return JOB_FORMS;
   }
 
 }

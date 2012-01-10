@@ -31,7 +31,79 @@ public enum DerbyRepoError implements ErrorCode {
   DERBYREPO_0002("Unable to shutdown embedded  Derby instance"),
 
   /** The system was unable to run the specified query. */
-  DERBYREPO_0003("Unable to run specified query");
+  DERBYREPO_0003("Unable to run specified query"),
+
+  /** The system was unable to query the repository for connector metadata. */
+  DERBYREPO_0004("Unable to retrieve connector metadata"),
+
+  /** The metadata repository contains more than one connector with same name */
+  DERBYREPO_0005("Invalid metadata state - multiple connectors with name"),
+
+  /** The system does not support the given input type.*/
+  DERBYREPO_0006("Unknown input type encountered"),
+
+  /** The system does not support the given form type.*/
+  DERBYREPO_0007("Unknown form type encountered"),
+
+  /** No input metadata was found for the given form. */
+  DERBYREPO_0008("The form contains no input metadata"),
+
+  /** The system could not load the form due to unexpected position of input.*/
+  DERBYREPO_0009("The form input retrieved does not match expected position"),
+
+  /**
+   * The system could not load the connector due to unexpected position
+   * of form.
+   */
+  DERBYREPO_0010("The form retrieved does not match expteced position"),
+
+  /**
+   * The system was not able to register connector metadata due to a
+   * pre-assigned persistence identifier.
+   */
+  DERBYREPO_0011("Connector metadata cannot have preassigned persistence id"),
+
+  /**
+   * The system was unable to register connector metadata due to an unexpected
+   * update count.
+   */
+  DERBYREPO_0012("Unexpected update count on connector registration"),
+
+  /**
+   * The system was unable to register connector metadata due to a failure to
+   * retrieve the generated identifier.
+   */
+  DERBYREPO_0013("Unable to retrieve generated identifier for new connector"),
+
+  /**
+   * The system was unable to register connector metadata due to a server
+   * error.
+   */
+  DERBYREPO_0014("Registration of connector metadata failed"),
+
+  /**
+   * The system was not able to register connector metadata due to an unexpected
+   * update count.
+   */
+  DERBYREPO_0015("Unexpected update count on form registration"),
+
+  /**
+   * The system was unable to register connector metadata due to a failure to
+   * retrieve the generated identifier for a form.
+   */
+  DERBYREPO_0016("Unable to retrieve generated identifier for form"),
+
+  /**
+   * The system was unable to register connector metadata due to an unexpected
+   * update count for form input registration.
+   */
+  DERBYREPO_0017("Unexpected update count for form input"),
+
+  /**
+   * The system was unable to register connector metadata due to a failure to
+   * retrieve the generated identifier for a form input.
+   */
+  DERBYREPO_0018("Unable to retrieve generated identifier for form input");
 
 
   private final String message;

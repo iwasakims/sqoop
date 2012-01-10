@@ -15,35 +15,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.sqoop.connector.mysqljdbc;
+package org.apache.sqoop.connector.spi;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.sqoop.model.MForm;
-import org.apache.sqoop.connector.spi.SqoopConnector;
 
-public class MySqlJdbcConnector implements SqoopConnector {
+/**
+ * Service provider interface for Sqoop Connectors.
+ */
+public interface SqoopConnector {
 
-  private static final List<MForm> CONNECTION_FORMS = new ArrayList<MForm>();
-  private static final List<MForm> JOB_FORMS = new ArrayList<MForm>();
+  /**
+   * @param locale
+   * @return the resource bundle associated with the given locale.
+   */
+  public ResourceBundle getBundle(Locale locale);
 
-  @Override
-  public ResourceBundle getBundle(Locale locale) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+  /**
+   * @return a list of <tt>MForm</tt> that provide metadata about input needed
+   * by Sqoop to create a connection object using this connector.
+   */
+  public List<MForm> getConnectionForms();
 
-  @Override
-  public List<MForm> getConnectionForms() {
-    return CONNECTION_FORMS;
-  }
 
-  @Override
-  public List<MForm> getJobForms() {
-    // TODO Auto-generated method stub
-    return JOB_FORMS;
-  }
+  /**
+   * @return a list of <tt>MForm</tt> that provide metadata about input needed
+   * by Sqoop to create a job object using this connector.
+   */
+  public List<MForm> getJobForms();
 }

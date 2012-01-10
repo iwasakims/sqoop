@@ -41,8 +41,34 @@ public final class MForm extends MNamedElement {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("form-").append(getName());
-    sb.append(":").append(inputs);
+    sb.append(":").append(getPersistenceId()).append(":").append(inputs);
 
     return sb.toString();
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == this) {
+      return true;
+    }
+
+    if (!(other instanceof MForm)) {
+      return false;
+    }
+
+    MForm mf = (MForm) other;
+    return getName().equals(mf.getName())
+        && inputs.equals(mf.inputs);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = 17;
+    result = 31 * result + getName().hashCode();
+    for (MInput<?> mi : inputs) {
+      result = 31 * result + mi.hashCode();
+    }
+
+    return result;
   }
 }

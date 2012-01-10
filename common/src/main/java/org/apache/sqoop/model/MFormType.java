@@ -15,24 +15,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.sqoop.spi;
-
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import org.apache.sqoop.model.MForm;
+package org.apache.sqoop.model;
 
 /**
- * Service provider interface for Sqoop Connectors.
+ * Represents the various form types supported by the system.
  */
-public interface SqoopConnector {
+public enum MFormType {
 
-  /**
-   * @param locale
-   * @return the resource bundle associated with the given locale.
-   */
-  public ResourceBundle getBundle(Locale locale);
+  /** Unknown form type */
+  OTHER,
 
-  public List<MForm> getConnectionForms();
+  /** Connection form type */
+  CONNECTION,
+
+  /** Job form type */
+  JOB;
+
 }

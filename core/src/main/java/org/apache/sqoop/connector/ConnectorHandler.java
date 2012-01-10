@@ -27,7 +27,7 @@ import org.apache.sqoop.core.ConfigurationConstants;
 import org.apache.sqoop.core.SqoopException;
 import org.apache.sqoop.model.MConnector;
 import org.apache.sqoop.model.MForm;
-import org.apache.sqoop.spi.SqoopConnector;
+import org.apache.sqoop.connector.spi.SqoopConnector;
 
 public final class ConnectorHandler {
 
@@ -90,7 +90,7 @@ public final class ConnectorHandler {
 
     // Initialize Metadata
     mConnector = new MConnector(connectorUniqueName, connectorClassName,
-        new ArrayList<MForm>(), new ArrayList<MForm>());
+        connector.getConnectionForms(), connector.getJobForms());
 
     if (LOG.isInfoEnabled()) {
       LOG.info("Connector [" + connectorClassName + "] initialized.");

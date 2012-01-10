@@ -70,4 +70,38 @@ public final class MMapInput extends MInput<Map<String, String>> {
     }
     setValue(valueMap);
   }
+
+  @Override
+  public MInputType getType() {
+    return MInputType.MAP;
+  }
+
+  @Override
+  protected boolean hasExtraInfo() {
+    return false;
+  }
+
+  @Override
+  protected String getExtraInfoToString() {
+    return "";
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == this) {
+      return true;
+    }
+
+    if (!(other instanceof MMapInput)) {
+      return false;
+    }
+
+    MMapInput mmi = (MMapInput) other;
+    return getName().equals(mmi.getName());
+  }
+
+  @Override
+  public int hashCode() {
+    return 23 + 31 * getName().hashCode();
+  }
 }

@@ -27,6 +27,8 @@ public interface JdbcRepositoryHandler {
 
   public MConnector findConnector(String shortName, Connection conn);
 
+  public void registerConnector(MConnector mc, Connection conn);
+
   public boolean schemaExists();
 
   public void createSchema();

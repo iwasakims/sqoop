@@ -28,6 +28,8 @@ public final class DerbySchemaConstants {
   public static final String TABLE_SQ_CONNECTOR = SCHEMA_PREFIX
       + TABLE_SQ_CONNECTOR_NAME;
 
+  public static final String COLUMN_SQC_ID = "SQC_ID";
+
   public static final String COLUMN_SQC_NAME = "SQC_NAME";
 
   public static final String COLUMN_SQC_CLASS = "SQC_CLASS";

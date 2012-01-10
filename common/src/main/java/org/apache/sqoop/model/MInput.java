@@ -56,10 +56,46 @@ public abstract class MInput<T> extends MNamedElement {
    */
   public abstract void restoreFromUrlSafeValueString(String valueString);
 
+  public abstract MInputType getType();
+
+  /**
+   * @return <tt>true</tt> if this type maintains more state than what is
+   * stored in the <tt>MInput</tt> base class.
+   */
+  protected abstract boolean hasExtraInfo();
+
+  /**
+   * @return the string representation of state stored in this type if
+   * applicable or an empty string.
+   */
+  protected abstract String getExtraInfoToString();
+
+  /**
+   * All input types must override the <tt>equals()</tt> method such that the
+   * test for equality is based on static metadata only. As a result any
+   * set value, error message and other dynamic value data is not considered
+   * as part of the equality comparison.
+   */
+  @Override
+  public abstract boolean equals(Object other);
+
+  /**
+   * All input types must override the <tt>hashCode()</tt> method such that
+   * the hash code computation is solely based on static metadata. As a result
+   * any set value, error message and other dynamic value data is not
+   * considered as part of the hash code computation.
+   */
+  @Override
+  public abstract int hashCode();
+
   @Override
   public final String toString() {
-    StringBuilder sb = new StringBuilder("input-");
-    sb.append(getClass().getSimpleName()).append(":").append(getName());
+    StringBuilder sb = new StringBuilder("input-").append(getName());
+    sb.append(":").append(getPersistenceId()).append(":");
+    sb.append(getType());
+    if (hasExtraInfo()) {
+      sb.append(":").append(getExtraInfoToString());
+    }
 
     return sb.toString();
   }

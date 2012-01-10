@@ -28,7 +28,7 @@ import org.apache.sqoop.utils.UrlSafeUtils;
 public final class MStringInput extends MInput<String> {
 
   private final boolean mask;
-  private final int maxLength;
+  private final short maxLength;
 
   /**
    * @param name the parameter name
@@ -36,7 +36,7 @@ public final class MStringInput extends MInput<String> {
    * @param mask a flag indicating if the string should be masked
    * @param maxLength the maximum length of the string
    */
-  public MStringInput(String name, boolean mask, int maxLength) {
+  public MStringInput(String name, boolean mask, short maxLength) {
     super(name);
     this.mask = mask;
     this.maxLength = maxLength;
@@ -53,7 +53,7 @@ public final class MStringInput extends MInput<String> {
   /**
    * @return the maximum length of this string type
    */
-  public int getMaxLength() {
+  public short getMaxLength() {
     return maxLength;
   }
 
@@ -65,5 +65,44 @@ public final class MStringInput extends MInput<String> {
   @Override
   public void restoreFromUrlSafeValueString(String valueString) {
     setValue(UrlSafeUtils.urlDecode(valueString));
+  }
+
+  @Override
+  public MInputType getType() {
+    return MInputType.STRING;
+  }
+
+  @Override
+  protected boolean hasExtraInfo() {
+    return true;
+  }
+
+  @Override
+  protected String getExtraInfoToString() {
+    return isMasked() + ":" + getMaxLength();
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == this) {
+      return true;
+    }
+
+    if (!(other instanceof MStringInput)) {
+      return false;
+    }
+
+    MStringInput msi = (MStringInput) other;
+    return getName().equals(msi.getName())
+        && (mask == msi.mask)
+        && (maxLength == msi.maxLength);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = 23 + 31 * getName().hashCode();
+    result = 31 * result + (mask ? 1 : 0);
+    result = 31 * result + maxLength;
+    return result;
   }
 }

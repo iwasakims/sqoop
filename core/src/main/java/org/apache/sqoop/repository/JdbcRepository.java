@@ -54,9 +54,12 @@ public class JdbcRepository implements Repository {
       Connection conn = tx.getConnection();
       result = handler.findConnector(connectorUniqueName, conn);
       if (result == null) {
-        // Insert (Register) connector FIXME
-
-
+        handler.registerConnector(mConnector, conn);
+      } else {
+        if (!result.equals(mConnector)) {
+          throw new SqoopException(RepositoryError.JDBCREPO_0013,
+              "given[" + mConnector + "] found[" + result + "]");
+        }
       }
       tx.commit();
     } catch (Exception ex) {

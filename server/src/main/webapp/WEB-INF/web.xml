@@ -29,7 +29,6 @@ limitations under the License.
 
   <servlet>
     <servlet-name>VersionServlet</servlet-name>
-    <display-name>Version Servlet</display-name>
     <servlet-class>org.apache.sqoop.server.VersionServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>

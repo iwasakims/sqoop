@@ -15,35 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.sqoop.connector.mysqljdbc;
+package org.apache.sqoop.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+/**
+ * Represents a persistable metadata entity.
+ */
+public abstract class MPersistableEntity {
 
-import org.apache.sqoop.model.MForm;
-import org.apache.sqoop.connector.spi.SqoopConnector;
+  private long persistenceId = -1L;
 
-public class MySqlJdbcConnector implements SqoopConnector {
+  protected MPersistableEntity() {
+    // Default constructor
+  }
 
-  private static final List<MForm> CONNECTION_FORMS = new ArrayList<MForm>();
-  private static final List<MForm> JOB_FORMS = new ArrayList<MForm>();
+  public void setPersistenceId(long persistenceId) {
+    this.persistenceId = persistenceId;
+  }
 
-  @Override
-  public ResourceBundle getBundle(Locale locale) {
-    // TODO Auto-generated method stub
-    return null;
+  public long getPersistenceId() {
+    return persistenceId;
   }
 
   @Override
-  public List<MForm> getConnectionForms() {
-    return CONNECTION_FORMS;
-  }
-
-  @Override
-  public List<MForm> getJobForms() {
-    // TODO Auto-generated method stub
-    return JOB_FORMS;
-  }
+  public abstract String toString();
 }

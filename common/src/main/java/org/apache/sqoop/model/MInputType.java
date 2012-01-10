@@ -15,35 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.sqoop.connector.mysqljdbc;
+package org.apache.sqoop.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+/**
+ * Represents the various input types supported by the system.
+ */
+public enum MInputType {
 
-import org.apache.sqoop.model.MForm;
-import org.apache.sqoop.connector.spi.SqoopConnector;
+  /** Unknown input type */
+  OTHER,
 
-public class MySqlJdbcConnector implements SqoopConnector {
+  /** String input type */
+  STRING,
 
-  private static final List<MForm> CONNECTION_FORMS = new ArrayList<MForm>();
-  private static final List<MForm> JOB_FORMS = new ArrayList<MForm>();
-
-  @Override
-  public ResourceBundle getBundle(Locale locale) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public List<MForm> getConnectionForms() {
-    return CONNECTION_FORMS;
-  }
-
-  @Override
-  public List<MForm> getJobForms() {
-    // TODO Auto-generated method stub
-    return JOB_FORMS;
-  }
+  /** Map input type */
+  MAP;
 }
