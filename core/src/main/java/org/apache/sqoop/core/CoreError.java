@@ -17,6 +17,8 @@
  */
 package org.apache.sqoop.core;
 
+import org.apache.sqoop.common.ErrorCode;
+
 public enum CoreError implements ErrorCode {
 
   /** An unknown error has occurred. */

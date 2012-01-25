@@ -19,8 +19,8 @@ package org.apache.sqoop.handler;
 
 import org.apache.log4j.Logger;
 import org.apache.sqoop.common.JsonBean;
+import org.apache.sqoop.common.SqoopException;
 import org.apache.sqoop.common.VersionInfo;
-import org.apache.sqoop.core.SqoopException;
 import org.apache.sqoop.server.RequestContext;
 import org.apache.sqoop.server.RequestHandler;
 

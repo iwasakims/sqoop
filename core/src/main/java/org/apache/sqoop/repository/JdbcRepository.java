@@ -20,8 +20,8 @@ package org.apache.sqoop.repository;
 import java.sql.Connection;
 
 import org.apache.log4j.Logger;
+import org.apache.sqoop.common.SqoopException;
 import org.apache.sqoop.connector.ConnectorHandler;
-import org.apache.sqoop.core.SqoopException;
 import org.apache.sqoop.model.MConnector;
 
 public class JdbcRepository implements Repository {

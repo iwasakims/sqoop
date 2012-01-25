@@ -21,9 +21,9 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
+import org.apache.sqoop.common.SqoopException;
 import org.apache.sqoop.connector.ConnectorManager;
 import org.apache.sqoop.core.SqoopConfiguration;
-import org.apache.sqoop.core.SqoopException;
 import org.apache.sqoop.repository.RepositoryManager;
 
 

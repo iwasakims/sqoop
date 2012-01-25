@@ -32,9 +32,9 @@ import org.apache.commons.pool.KeyedObjectPoolFactory;
 import org.apache.commons.pool.impl.GenericKeyedObjectPoolFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.log4j.Logger;
+import org.apache.sqoop.common.SqoopException;
 import org.apache.sqoop.core.Context;
 import org.apache.sqoop.core.SqoopConfiguration;
-import org.apache.sqoop.core.SqoopException;
 import org.apache.sqoop.utils.ClassLoadingUtils;
 
 

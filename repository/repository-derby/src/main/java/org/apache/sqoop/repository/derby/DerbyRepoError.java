@@ -17,7 +17,7 @@
  */
 package org.apache.sqoop.repository.derby;
 
-import org.apache.sqoop.core.ErrorCode;
+import org.apache.sqoop.common.ErrorCode;
 
 public enum DerbyRepoError implements ErrorCode {
 

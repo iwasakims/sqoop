@@ -36,7 +36,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
-import org.apache.sqoop.core.SqoopException;
+import org.apache.sqoop.common.SqoopException;
 import org.apache.sqoop.model.MConnector;
 import org.apache.sqoop.model.MForm;
 import org.apache.sqoop.model.MFormType;

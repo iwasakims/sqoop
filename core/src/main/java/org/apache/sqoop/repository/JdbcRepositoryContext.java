@@ -23,8 +23,8 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.apache.sqoop.common.SqoopException;
 import org.apache.sqoop.core.Context;
-import org.apache.sqoop.core.SqoopException;
 
 
 public final class JdbcRepositoryContext {

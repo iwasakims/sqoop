@@ -19,6 +19,7 @@ package org.apache.sqoop.core;
 
 import java.util.Properties;
 
+import org.apache.sqoop.common.SqoopException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

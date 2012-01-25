@@ -15,7 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.sqoop.core;
+package org.apache.sqoop.common;
+
 
 /**
  * Base exception for Sqoop framework. This exception requires the specification

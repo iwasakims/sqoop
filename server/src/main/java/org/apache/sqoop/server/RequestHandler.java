@@ -19,7 +19,7 @@ package org.apache.sqoop.server;
 
 
 import org.apache.sqoop.common.JsonBean;
-import org.apache.sqoop.core.SqoopException;
+import org.apache.sqoop.common.SqoopException;
 
 public interface RequestHandler {
 

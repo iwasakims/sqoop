@@ -20,9 +20,9 @@ package org.apache.sqoop.repository;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.apache.sqoop.common.SqoopException;
 import org.apache.sqoop.core.Context;
 import org.apache.sqoop.core.SqoopConfiguration;
-import org.apache.sqoop.core.SqoopException;
 import org.apache.sqoop.utils.ClassLoadingUtils;
 
 public final class RepositoryManager {

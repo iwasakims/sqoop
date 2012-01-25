@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.sqoop.core;
+package org.apache.sqoop.common;
 
 /**
  * Defines an error-code contract. Sqoop exceptions use the error code to

@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
+import org.apache.sqoop.common.SqoopException;
 
 public class PropertiesConfigurationProvider implements ConfigurationProvider {
 
