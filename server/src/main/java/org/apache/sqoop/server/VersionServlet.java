@@ -17,8 +17,8 @@
  */
 package org.apache.sqoop.server;
 
-import org.apache.sqoop.common.JsonBean;
 import org.apache.sqoop.handler.VersionRequestHandler;
+import org.apache.sqoop.json.JsonBean;
 
 /**
  * Exposes the supported versions available in the server.

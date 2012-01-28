@@ -18,9 +18,10 @@
 package org.apache.sqoop.handler;
 
 import org.apache.log4j.Logger;
-import org.apache.sqoop.common.JsonBean;
-import org.apache.sqoop.common.SqoopException;
 import org.apache.sqoop.common.VersionInfo;
+import org.apache.sqoop.common.SqoopException;
+import org.apache.sqoop.json.JsonBean;
+import org.apache.sqoop.json.VersionsBean;
 import org.apache.sqoop.server.RequestContext;
 import org.apache.sqoop.server.RequestHandler;
 
@@ -30,14 +31,16 @@ public class VersionRequestHandler implements RequestHandler {
       Logger.getLogger(VersionRequestHandler.class);
 
   /** The API version supported by this server */
-  public static final String VERSION_V1 = "1";
+  public static final String PROTOCOL_V1 = "1";
 
 
-  private final VersionInfo versionInfo;
+  private final VersionsBean versionsBean;
 
   public VersionRequestHandler() {
-    String[] versions = { VERSION_V1 };
-    versionInfo = new VersionInfo(versions);
+    String[] protocols = { PROTOCOL_V1 };
+    versionsBean = new VersionsBean(VersionInfo.getVersion(),
+        VersionInfo.getRevision(), VersionInfo.getDate(),
+        VersionInfo.getUser(), VersionInfo.getUrl(), protocols);
 
     LOG.info("VersionRequestHandler initialized");
   }
@@ -45,6 +48,6 @@ public class VersionRequestHandler implements RequestHandler {
 
   @Override
   public JsonBean handleEvent(RequestContext ctx) throws SqoopException {
-    return versionInfo;
+    return versionsBean;
   }
 }

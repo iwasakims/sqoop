@@ -17,40 +17,58 @@
  */
 package org.apache.sqoop.common;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+public class VersionInfo {
 
-public class VersionInfo implements JsonBean {
+  private static Package myPackage;
+  private static VersionAnnotation annotation;
 
-  public static final String VERSIONS = "versions";
-
-  private String[] versions;
-
-  public VersionInfo(String[] versions) {
-    this.versions = new String[versions.length];
-    System.arraycopy(versions, 0, this.versions, 0, versions.length);
+  static {
+    myPackage = VersionAnnotation.class.getPackage();
+    annotation = myPackage.getAnnotation(VersionAnnotation.class);
   }
 
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public JSONObject extract() {
-    JSONObject result = new JSONObject();
-    JSONArray versionsArray = new JSONArray();
-    for (String versionEntry : versions) {
-      versionsArray.add(versionEntry);
-    }
-    result.put(VERSIONS, versionsArray);
-    return result;
+  private VersionInfo() {
+    // Disable explicit object creation
   }
 
-  @Override
-  public void restore(JSONObject jsonObject) {
-    JSONArray versionsArray = (JSONArray) jsonObject.get(VERSIONS);
-    int size = versionsArray.size();
-    this.versions = new String[size];
-    for (int i = 0; i<size; i++) {
-      versions[i] = (String) versionsArray.get(i);
-    }
+  /**
+   * Get the version.
+   * @return the version string, eg. "2.0.0"
+   */
+  public static String getVersion() {
+    return annotation != null ? annotation.version() : "Unknown";
   }
+
+  /**
+   * Get the subversion revision number for the root directory
+   * @return the revision number, eg. "451451"
+   */
+  public static String getRevision() {
+    return annotation != null ? annotation.revision() : "Unknown";
+  }
+
+  /**
+   * The date that the code was compiled.
+   * @return the compilation date in unix date format
+   */
+  public static String getDate() {
+    return annotation != null ? annotation.date() : "Unknown";
+  }
+
+  /**
+   * The user that compiled the code.
+   * @return the username of the user
+   */
+  public static String getUser() {
+    return annotation != null ? annotation.user() : "Unknown";
+  }
+
+  /**
+   * Get the subversion URL for the root directory.
+   * @return the url
+   */
+  public static String getUrl() {
+    return annotation != null ? annotation.url() : "Unknown";
+  }
+
 }

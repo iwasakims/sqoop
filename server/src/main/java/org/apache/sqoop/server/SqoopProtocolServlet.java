@@ -29,11 +29,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.apache.sqoop.common.ErrorCode;
 import org.apache.sqoop.common.ExceptionInfo;
-import org.apache.sqoop.common.JsonBean;
 import org.apache.sqoop.common.SqoopException;
 import org.apache.sqoop.common.SqoopProtocolConstants;
 import org.apache.sqoop.common.SqoopResponseCode;
 import org.apache.sqoop.core.CoreError;
+import org.apache.sqoop.json.JsonBean;
 
 @SuppressWarnings("serial")
 public class SqoopProtocolServlet extends HttpServlet {

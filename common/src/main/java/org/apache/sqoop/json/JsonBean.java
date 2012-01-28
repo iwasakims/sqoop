@@ -15,22 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.sqoop.server.v1;
+package org.apache.sqoop.json;
 
-import org.apache.sqoop.json.JsonBean;
-import org.apache.sqoop.server.RequestContext;
-import org.apache.sqoop.server.SqoopProtocolServlet;
+import org.json.simple.JSONObject;
 
-/**
- * Displays the list of connectors that are available in the system via
- * a GET request.
- */
-@SuppressWarnings("serial")
-public class ConnectorServlet extends SqoopProtocolServlet {
+public interface JsonBean {
 
-  @Override
-  protected JsonBean handleGetRequest(RequestContext ctx) throws Exception {
-    // TODO Auto-generated method stub
-    return super.handleGetRequest(ctx);
-  }
+  public JSONObject extract();
+
+  public void restore(JSONObject jsonObject);
+
+  public static final JsonBean EMPTY_BEAN = new JsonBean() {
+
+    @Override
+    public JSONObject extract() {
+      return new JSONObject();
+    }
+
+    @Override
+    public void restore(JSONObject jsonObject) {
+    }
+  };
 }

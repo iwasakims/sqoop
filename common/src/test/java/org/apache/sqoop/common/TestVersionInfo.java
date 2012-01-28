@@ -17,23 +17,18 @@
  */
 package org.apache.sqoop.common;
 
-import org.json.simple.JSONObject;
+import org.junit.Assert;
+import org.junit.Test;
 
-public interface JsonBean {
+public class TestVersionInfo {
 
-  public JSONObject extract();
+  @Test
+  public void testValues() throws Exception {
+    Assert.assertNotSame("Unknown", VersionInfo.getVersion());
+    Assert.assertNotSame("Unknown", VersionInfo.getRevision());
+    Assert.assertNotSame("Unknown", VersionInfo.getDate());
+    Assert.assertNotSame("Unknown", VersionInfo.getUser());
+    Assert.assertNotSame("Unknown", VersionInfo.getUrl());
+  }
 
-  public void restore(JSONObject jsonObject);
-
-  public static final JsonBean EMPTY_BEAN = new JsonBean() {
-
-    @Override
-    public JSONObject extract() {
-      return new JSONObject();
-    }
-
-    @Override
-    public void restore(JSONObject jsonObject) {
-    }
-  };
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -15,22 +15,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.sqoop.server.v1;
+package org.apache.sqoop.common;
 
-import org.apache.sqoop.json.JsonBean;
-import org.apache.sqoop.server.RequestContext;
-import org.apache.sqoop.server.SqoopProtocolServlet;
+import java.lang.annotation.*;
 
 /**
- * Displays the list of connectors that are available in the system via
- * a GET request.
+ * A package attribute that captures the version that was compiled.
+ * Copied down from hadoop.  All is same except name of interface.
  */
-@SuppressWarnings("serial")
-public class ConnectorServlet extends SqoopProtocolServlet {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.PACKAGE)
+public @interface VersionAnnotation {
 
-  @Override
-  protected JsonBean handleGetRequest(RequestContext ctx) throws Exception {
-    // TODO Auto-generated method stub
-    return super.handleGetRequest(ctx);
-  }
+  /**
+   * Get the Hadoop version
+   * @return the version string (eg. "2.0.0")
+   */
+  String version();
+
+  /**
+   * Get the username that compiled the code.
+   */
+  String user();
+
+  /**
+   * Get the date when the code was compiled.
+   * @return the date in unix 'date' format
+   */
+  String date();
+
+  /**
+   * Get the url for the subversion repository.
+   */
+  String url();
+
+  /**
+   * Get the subversion revision.
+   * @return the revision number as a string (eg. "451451")
+   */
+  String revision();
 }

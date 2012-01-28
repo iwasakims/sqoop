@@ -20,6 +20,7 @@ package org.apache.sqoop.common;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import org.apache.sqoop.json.JsonBean;
 import org.json.simple.JSONObject;
 
 public class ExceptionInfo implements JsonBean {
