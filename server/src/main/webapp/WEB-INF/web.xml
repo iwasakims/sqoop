@@ -35,7 +35,7 @@ limitations under the License.
 
   <servlet-mapping>
     <servlet-name>VersionServlet</servlet-name>
-    <url-pattern>/versions</url-pattern>
+    <url-pattern>/version</url-pattern>
   </servlet-mapping>
 
 </web-app>

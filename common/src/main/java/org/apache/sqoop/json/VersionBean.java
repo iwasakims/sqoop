@@ -22,7 +22,7 @@ import java.util.Arrays;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class VersionsBean implements JsonBean {
+public class VersionBean implements JsonBean {
 
   public static final String VERSION = "version";
   public static final String REVISION = "revision";
@@ -39,7 +39,7 @@ public class VersionsBean implements JsonBean {
   private String[] protocols;
 
   // for "extract"
-  public VersionsBean(String version, String revision, String date,
+  public VersionBean(String version, String revision, String date,
       String user, String url, String[] protocols) {
     this.version = version;
     this.revision = revision;
@@ -51,7 +51,7 @@ public class VersionsBean implements JsonBean {
   }
 
   // for "restore"
-  public VersionsBean() {
+  public VersionBean() {
   }
 
   @SuppressWarnings("unchecked")

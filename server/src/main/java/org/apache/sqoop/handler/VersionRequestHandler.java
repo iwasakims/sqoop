@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 import org.apache.sqoop.common.VersionInfo;
 import org.apache.sqoop.common.SqoopException;
 import org.apache.sqoop.json.JsonBean;
-import org.apache.sqoop.json.VersionsBean;
+import org.apache.sqoop.json.VersionBean;
 import org.apache.sqoop.server.RequestContext;
 import org.apache.sqoop.server.RequestHandler;
 
@@ -34,11 +34,11 @@ public class VersionRequestHandler implements RequestHandler {
   public static final String PROTOCOL_V1 = "1";
 
 
-  private final VersionsBean versionsBean;
+  private final VersionBean versionBean;
 
   public VersionRequestHandler() {
     String[] protocols = { PROTOCOL_V1 };
-    versionsBean = new VersionsBean(VersionInfo.getVersion(),
+    versionBean = new VersionBean(VersionInfo.getVersion(),
         VersionInfo.getRevision(), VersionInfo.getDate(),
         VersionInfo.getUser(), VersionInfo.getUrl(), protocols);
 
@@ -48,6 +48,6 @@ public class VersionRequestHandler implements RequestHandler {
 
   @Override
   public JsonBean handleEvent(RequestContext ctx) throws SqoopException {
-    return versionsBean;
+    return versionBean;
   }
 }
