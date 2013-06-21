@@ -26,32 +26,34 @@ import org.apache.hadoop.mapreduce.lib.output.NullOutputFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.sqoop.mapreduce.ExportInputFormat;
+import org.apache.sqoop.mapreduce.PostgreSQLCopyExportJob;
 
 
 /**
  * Manages connections to Postgresql databases.
  */
 public class PostgreSQLCopyManager extends PostgresqlManager {
-
   public static final Log LOG =
-      LogFactory.getLog(PostgreSQLCopyManager.class.getName());
-
+    LogFactory.getLog(PostgreSQLCopyManager.class.getName());
 
   public PostgreSQLCopyManager(final SqoopOptions opts) {
     super(opts);
   }
 
-
   @Override
-  public void exportTable(ExportJobContext context)
-      throws IOException, ExportException {
+    public void exportTable(ExportJobContext context)
+    throws IOException, ExportException {
     context.setConnManager(this);
+    PostgreSQLCopyExportJob job =
+      new PostgreSQLCopyExportJob(context,
+                                  null,
+                                  ExportInputFormat.class,
+                                  NullOutputFormat.class);
+    job.runExport();
   }
-
 
   @Override
-  public boolean supportsStagingForExport() {
-    return false;
+    public boolean supportsStagingForExport() {
+    return true;
   }
-
-}
+} 
