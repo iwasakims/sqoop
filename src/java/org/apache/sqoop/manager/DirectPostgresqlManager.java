@@ -61,7 +61,7 @@ import com.cloudera.sqoop.util.PerfCounters;
  * Manages direct dumps from Postgresql databases via psql COPY TO STDOUT
  * commands.
  */
-public class DirectPostgresqlManager 
+public class DirectPostgresqlManager
     extends com.cloudera.sqoop.manager.PostgresqlManager {
 
   public static final Log LOG = LogFactory.getLog(

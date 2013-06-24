@@ -30,7 +30,6 @@ import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper.Context;
-import org.apache.sqoop.lib.SqoopRecord;
 import org.apache.sqoop.mapreduce.db.DBConfiguration;
 import org.apache.sqoop.util.LoggingUtils;
 import org.postgresql.PGConnection;
@@ -101,13 +100,19 @@ public class PostgreSQLCopyMapper
       sql.append("'");
       sql.append(conf.get("postgresql.input.escapedby", "\""));
       sql.append("'");
+      if (conf.get("postgresql.null.string") != null) {
+        sql.append(", NULL ");
+        sql.append("'");
+        sql.append(conf.get("postgresql.null.string"));
+        sql.append("'");
+      }
       sql.append(")");
       copyin = cm.copyIn(sql.toString());
     } catch (SQLException ex) {
       LoggingUtils.logAll(LOG, "Unable to get CopyIn", ex);
       close();
       throw new IOException(ex);
-    } 
+    }
   }
 
   @Override
