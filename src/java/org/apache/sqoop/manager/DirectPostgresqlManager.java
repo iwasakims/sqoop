@@ -38,7 +38,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.mapreduce.lib.output.NullOutputFormat;
 import org.apache.sqoop.cli.RelatedOptions;
 import org.apache.sqoop.mapreduce.ExportInputFormat;
-import org.apache.sqoop.mapreduce.PostgreSQLCopyExportJob;
+import org.apache.sqoop.mapreduce.postgresql.PostgreSQLCopyExportJob;
 import org.apache.sqoop.util.PostgreSQLUtils;
 import org.apache.sqoop.util.SubstitutionUtils;
 
