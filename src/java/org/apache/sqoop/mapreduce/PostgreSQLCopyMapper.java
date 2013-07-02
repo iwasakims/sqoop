@@ -107,6 +107,7 @@ public class PostgreSQLCopyMapper
         sql.append("'");
       }
       sql.append(")");
+      LOG.debug("Starting export with copy: " + sql);
       copyin = cm.copyIn(sql.toString());
     } catch (SQLException ex) {
       LoggingUtils.logAll(LOG, "Unable to get CopyIn", ex);
