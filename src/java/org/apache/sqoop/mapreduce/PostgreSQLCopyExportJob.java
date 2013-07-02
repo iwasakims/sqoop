@@ -31,7 +31,6 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.OutputFormat;
 import org.apache.sqoop.lib.DelimiterSet;
-import org.apache.sqoop.mapreduce.hcat.SqoopHCatUtilities;
 
 
 /**

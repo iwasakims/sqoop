@@ -45,11 +45,11 @@ import org.postgresql.copy.CopyIn;
  * or text files (containing delimited lines)
  * and deliver these results to the CopyIn object of PostgreSQL JDBC.
  */
-public class PostgreSQLCopyMapper
+public class PostgreSQLCopyExportMapper
     extends AutoProgressMapper<LongWritable, Writable,
                                NullWritable, NullWritable> {
   public static final Log LOG =
-    LogFactory.getLog(PostgreSQLCopyMapper.class.getName());
+    LogFactory.getLog(PostgreSQLCopyExportMapper.class.getName());
 
   private Configuration conf;
   private DBConfiguration dbConf;
@@ -60,7 +60,7 @@ public class PostgreSQLCopyMapper
     new DelimiterSet(',', '\n',
                      DelimiterSet.NULL_CHAR, DelimiterSet.NULL_CHAR, false);
 
-  public PostgreSQLCopyMapper() {
+  public PostgreSQLCopyExportMapper() {
   }
 
   @Override
