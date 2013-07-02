@@ -49,9 +49,6 @@ import com.cloudera.sqoop.mapreduce.db.DBConfiguration;
  * $ sudo -u postgres createuser -U postgres -s sqooptest
  * $ sudo -u postgres createdb -U sqooptest sqooptest
  * $ psql -U sqooptest sqooptest
- * sqooptest=# CREATE USER sqooptest;
- * sqooptest=# CREATE DATABASE sqooptest;
- * sqooptest=# \q
  *
  */
 public class DirectPostgreSQLExportManualTest extends TestExport {
@@ -59,6 +56,15 @@ public class DirectPostgreSQLExportManualTest extends TestExport {
   public static final Log LOG =
       LogFactory.getLog(DirectPostgreSQLExportManualTest.class.getName());
   private DBConfiguration dbConf;
+
+  static final String HOST_URL =
+    System.getProperty("sqoop.test.postgresql.connectstring.host_url",
+                       "jdbc:postgresql://localhost/");
+  static final String DATABASE =
+    System.getProperty("sqoop.test.postgresql.database", "sqooptest");
+  static final String USERNAME =
+    System.getProperty("sqoop.test.postgresql.username", "sqooptest");
+  static final String CONNECT_STRING = HOST_URL + DATABASE;
 
   public DirectPostgreSQLExportManualTest() {
     JobConf conf = new JobConf(getConf());
@@ -77,11 +83,11 @@ public class DirectPostgreSQLExportManualTest extends TestExport {
 
   @Override
   protected String getConnectString() {
-    return "jdbc:postgresql://localhost:5432/sqooptest";
+    return CONNECT_STRING;
   }
 
   protected String getUserName() {
-    return "sqooptest";
+    return USERNAME;
   }
 
   @Override
