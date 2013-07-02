@@ -53,7 +53,7 @@ public class PostgreSQLCopyExportJob extends JdbcExportJob {
 
   @Override
   protected Class<? extends Mapper> getMapperClass() {
-    return PostgreSQLCopyMapper.class;
+    return PostgreSQLCopyExportMapper.class;
   }
 
   @Override
