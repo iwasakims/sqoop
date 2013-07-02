@@ -61,7 +61,7 @@ public class PostgreSQLCopyExportJob extends JdbcExportJob {
   protected void configureMapper(Job job, String tableName,
       String tableClassName) throws ClassNotFoundException, IOException {
     if (isHCatJob) {
-      job.setMapperClass(SqoopHCatUtilities.getExportMapperClass());
+      throw new IOException("Sqoop-HCatalog Integration is not supported.");
     }
     switch (getInputFileType()) {
       case AVRO_DATA_FILE:
