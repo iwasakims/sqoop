@@ -18,8 +18,10 @@
 Sqoop 2 Connector Development
 =============================
 
-This document describes you how to implement connector for Sqoop 2.
+This document describes you how to implement connector for Sqoop 2
+using the code of built-in connector (GenericJdbcConnector) as example.
 
+.. contents::
 
 What is Connector?
 ++++++++++++++++++
@@ -112,7 +114,10 @@ Partitioner
 -----------
 
 Partitioner creates Partition instances based on configurations.
-The number of Partition instances is interpreted as the number of map tasks.
+The number of Partition instances is decided
+based on the value users specified as the numbers of ectractors
+in job configuration.
+
 Partition instances are passed to Extractor_ as the argument of extract method.
 Extractor_ determines which portion of the data to extract by Partition.
 
@@ -196,26 +201,102 @@ Destroyer is instantiated after MapReduce job is finished for clean up.
 Connector Configurations
 ++++++++++++++++++++++++
 
+Connector specifications
+========================
+
+Framework of the Sqoop loads definitions of connectors
+from the file named sqoopconnector.properties
+which each connector implementation provides.
+::
+
+  # Generic JDBC Connector Properties
+  org.apache.sqoop.connector.class = org.apache.sqoop.connector.jdbc.GenericJdbcConnector
+  org.apache.sqoop.connector.name = generic-jdbc-connector
+
+
 Configurations
 ==============
 
-The definition of the configurations are represented
+Implementation of SqoopConnector overrides methods such as
+getConnectionConfigurationClass and getJobConfigurationClass
+returning configuration class.
+::
+
+  @Override
+  public Class getConnectionConfigurationClass() {
+    return ConnectionConfiguration.class;
+  }
+
+  @Override
+  public Class getJobConfigurationClass(MJob.Type jobType) {
+    switch (jobType) {
+      case IMPORT:
+        return ImportJobConfiguration.class;
+      case EXPORT:
+        return ExportJobConfiguration.class;
+      default:
+        return null;
+    }
+  }
+
+Configurations are represented
 by models defined in org.apache.sqoop.model package.
+Annotations such as ConfigurationClass, FormClass, Form and Input
+are provided for defining configurations of each connectors
+using these models.
 
+ConfigurationClass is place holder for FormClasses.
+::
 
-ConnectionConfigurationClass
-----------------------------
+  @ConfigurationClass
+  public class ConnectionConfiguration {
 
+    @Form public ConnectionForm connection;
 
-JobConfigurationClass
----------------------
+    public ConnectionConfiguration() {
+      connection = new ConnectionForm();
+    }
+  }
+
+Each FormClass defines names and types of configs.
+::
+
+  @FormClass
+  public class ConnectionForm {
+    @Input(size = 128) public String jdbcDriver;
+    @Input(size = 128) public String connectionString;
+    @Input(size = 40)  public String username;
+    @Input(size = 40, sensitive = true) public String password;
+    @Input public Map<String, String> jdbcProperties;
+  }
 
 
 ResourceBundle
 ==============
 
-Resources for Configurations_ are stored in properties file
-accessed by getBundle method of the Connector.
+Resources used by client user interfaces are defined in properties file.
+::
+
+  # jdbc driver
+  connection.jdbcDriver.label = JDBC Driver Class
+  connection.jdbcDriver.help = Enter the fully qualified class name of the JDBC \
+                     driver that will be used for establishing this connection.
+
+  # connect string
+  connection.connectionString.label = JDBC Connection String
+  connection.connectionString.help = Enter the value of JDBC connection string to be \
+                     used by this connector for creating connections.
+
+  ...
+
+Those resources are loaded by getBundle method of connector.
+::
+
+  @Override
+  public ResourceBundle getBundle(Locale locale) {
+    return ResourceBundle.getBundle(
+    GenericJdbcConnectorConstants.RESOURCE_BUNDLE_NAME, locale);
+  }
 
 
 Validator
@@ -230,21 +311,91 @@ Internal of Sqoop2 MapReduce Job
 Sqoop 2 provides common MapReduce modules such as SqoopMapper and SqoopReducer
 for the both of import and export.
 
-- InputFormat create splits using Partitioner.
+- For import, Extractor provided by Connector extracts data from databases,
+  and Loader provided by Sqoop2 loads data into Hadoop.
 
-- SqoopMapper invokes Extractor's extract method.
+- For export, Extractor provided Sqoop2 exracts data from Hadoop,
+  and Loader provided by Connector loads data into databases.
 
-- SqoopReducer do no actual works.
+The diagram below describes the initialization phase of IMPORT job.
+InputFormat create splits using Partitioner.
+::
 
-- OutputFormat invokes Loader's load method (via SqoopOutputFormatLoadExecutor).
+      ,----------------.          ,-----------.
+      |SqoopInputFormat|          |Partitioner|
+      `-------+--------'          `-----+-----'
+   getSplits  |                         |
+  ----------->|                         |
+              |      getPartitions      |
+              |------------------------>|
+              |                         |         ,---------.
+              |                         |-------> |Partition|
+              |                         |         `----+----'
+              |<- - - - - - - - - - - - |              |
+              |                         |              |          ,----------.
+              |-------------------------------------------------->|SqoopSplit|
+              |                         |              |          `----+-----'
 
-.. todo: sequence diagram like figure.
+The diagram below describes the map phase of IMPORT job.
+SqoopMapper invokes Extractor's extract method.
+::
 
-For import, Extractor provided by Connector extracts data from databases,
-and Loader provided by Sqoop2 loads data into Hadoop.
+      ,-----------.
+      |SqoopMapper|
+      `-----+-----'
+     run    |
+  --------->|                                   ,-------------.
+            |---------------------------------->|MapDataWriter|
+            |                                   `------+------'
+            |                ,---------.               |
+            |--------------> |Extractor|               |
+            |                `----+----'               |
+            |      extract        |                    |
+            |-------------------->|                    |
+            |                     |                    |
+           read from DB           |                    |
+  <-------------------------------|      write*        |
+            |                     |------------------->|
+            |                     |                    |           ,----.
+            |                     |                    |---------->|Data|
+            |                     |                    |           `-+--'
+            |                     |                    |
+            |                     |                    |      context.write
+            |                     |                    |-------------------------->
 
-For export, Extractor provided Sqoop2 exracts data from Hadoop,
-and Loader provided by Connector loads data into databases.
+The diagram below decribes the reduce phase of EXPORT job.
+OutputFormat invokes Loader's load method (via SqoopOutputFormatLoadExecutor).
+::
+
+    ,-------.  ,---------------------.
+    |Reducer|  |SqoopNullOutputFormat|
+    `---+---'  `----------+----------'
+        |                 |   ,-----------------------------.
+        |                 |-> |SqoopOutputFormatLoadExecutor|
+        |                 |   `--------------+--------------'        ,----.
+        |                 |                  |---------------------> |Data|
+        |                 |                  |                       `-+--'
+        |                 |                  |   ,-----------------.   |
+        |                 |                  |-> |SqoopRecordWriter|   |
+      getRecordWriter     |                  |   `--------+--------'   |
+  ----------------------->| getRecordWriter  |            |            |
+        |                 |----------------->|            |            |     ,--------------.
+        |                 |                  |-----------------------------> |ConsumerThread|
+        |                 |                  |            |            |     `------+-------'
+        |                 |<- - - - - - - - -|            |            |            |    ,------.
+  <- - - - - - - - - - - -|                  |            |            |            |--->|Loader|
+        |                 |                  |            |            |            |    `--+---'
+        |                 |                  |            |            |            |       |
+        |                 |                  |            |            |            | load  |
+   run  |                 |                  |            |            |            |------>|
+  ----->|                 |     write        |            |            |            |       |
+        |------------------------------------------------>| setContent |            | read* |
+        |                 |                  |            |----------->| getContent |<------|
+        |                 |                  |            |            |<-----------|       |
+        |                 |                  |            |            |            | - - ->|
+        |                 |                  |            |            |            |       | write into DB
+        |                 |                  |            |            |            |       |-------------->
+
 
 
 .. _`Intermediate representation`: https://cwiki.apache.org/confluence/display/SQOOP/Sqoop2+Intermediate+representation
