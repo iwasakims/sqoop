@@ -139,7 +139,6 @@ public class PGBulkloadExportJob extends ExportJobBase {
     conf.setBoolean("mapred.reduce.tasks.speculative.execution", false);
     conf.setInt("mapred.map.max.attempts", 1);
     conf.setInt("mapred.reduce.max.attempts", 1);
-    conf.setIfUnset("mapred.reduce.tasks",  "1");
     if (context.getOptions().doClearStagingTable()) {
       conf.setBoolean("pgbulkload.clear.staging.table", true);
     }
@@ -190,15 +189,9 @@ public class PGBulkloadExportJob extends ExportJobBase {
 
   @Override
   protected int configureNumTasks(Job job) throws IOException {
-    SqoopOptions options = context.getOptions();
-    int numMapTasks = options.getNumMappers();
-    if (numMapTasks < 1) {
-      numMapTasks = SqoopOptions.DEFAULT_NUM_MAPPERS;
-      LOG.warn("Invalid mapper count; using " + numMapTasks + " mappers.");
-    }
-
-    ConfigurationHelper.setJobNumMaps(job, numMapTasks);
-    return numMapTasks;
+    int numMaps = super.configureNumTasks(job);
+    job.setNumReduceTasks(job.getConfiguration().getInt("pgbulkload.job.reduces", 1));
+    return numMaps;
   }
 
 

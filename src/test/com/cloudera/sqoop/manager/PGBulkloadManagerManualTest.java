@@ -187,7 +187,7 @@ public class PGBulkloadManagerManualTest extends TestExport {
 
 
   public void testMultiReduceExport() throws IOException, SQLException {
-    String[] genericargs = newStrArray(null, "-Dmapred.reduce.tasks=2");
+    String[] genericargs = newStrArray(null, "-Dpgbulkload.job.reduces=2");
     multiFileTestWithGenericArgs(2, 10, 2, genericargs);
   }
 
