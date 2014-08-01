@@ -298,7 +298,7 @@ it must preceed any export control arguments.
 `-----------------------------`----------------------------------------------
 Property                      Description
 -----------------------------------------------------------------------------
-mapred.reduce.tasks           Number of reduce tasks for staging. \
+pgbulkload.job.reduces        Number of reduce tasks for staging. \
                               The defalt value is 1. \
                               Each tasks do staging in a single transaction.
 pgbulkload.bin                Path of the pg_bulkoad binary \
@@ -327,7 +327,7 @@ pgbulkload.filter             Specify the filter function \
 Here is a example of complete command line.
 ----
 $ sqoop export \
-    -Dmapred.reduce.tasks=2
+    -Dpgbulkload.job.reduces=2
     -Dpgbulkload.bin="/usr/local/bin/pg_bulkload" \
     -Dpgbulkload.input.field.delim=$'\t' \
     -Dpgbulkload.check.constraints="YES" \
