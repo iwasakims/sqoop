@@ -257,8 +257,8 @@ public class ExportJobBase extends JobBase {
   }
 
   @Override
-  protected int configureNumTasks(Job job) throws IOException {
-    int numMaps = super.configureNumTasks(job);
+  protected int configureNumMapTasks(Job job) throws IOException {
+    int numMaps = super.configureNumMapTasks(job);
     job.getConfiguration().setInt(EXPORT_MAP_TASKS_KEY, numMaps);
     return numMaps;
   }
@@ -397,7 +397,8 @@ public class ExportJobBase extends JobBase {
       configureInputFormat(job, tableName, tableClassName, null);
       configureOutputFormat(job, tableName, tableClassName);
       configureMapper(job, tableName, tableClassName);
-      configureNumTasks(job);
+      configureNumMapTasks(job);
+      configureNumReduceTasks(job);
       cacheJars(job, context.getConnManager());
 
       jobSetup(job);

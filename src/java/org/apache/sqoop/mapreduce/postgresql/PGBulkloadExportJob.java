@@ -164,7 +164,8 @@ public class PGBulkloadExportJob extends ExportJobBase {
       dbConf.setOutputTableName(tableName);
       configureInputFormat(job, tableName, tableClassName, null);
       configureOutputFormat(job, tableName, tableClassName);
-      configureNumTasks(job);
+      configureNumMapTasks(job);
+      configureNumReduceTasks(job);
       propagateOptionsToJob(job);
       job.setMapperClass(getMapperClass());
       job.setMapOutputKeyClass(LongWritable.class);
@@ -188,10 +189,11 @@ public class PGBulkloadExportJob extends ExportJobBase {
 
 
   @Override
-  protected int configureNumTasks(Job job) throws IOException {
-    int numMaps = super.configureNumTasks(job);
-    job.setNumReduceTasks(job.getConfiguration().getInt("pgbulkload.job.reduces", 1));
-    return numMaps;
+  protected int configureNumReduceTasks(Job job) throws IOException {
+    if (job.getNumReduceTasks() < 1) {
+      job.setNumReduceTasks(1);
+    }
+    return job.getNumReduceTasks();
   }
 
 
