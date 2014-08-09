@@ -164,8 +164,7 @@ public class PGBulkloadExportJob extends ExportJobBase {
       dbConf.setOutputTableName(tableName);
       configureInputFormat(job, tableName, tableClassName, null);
       configureOutputFormat(job, tableName, tableClassName);
-      configureNumMapTasks(job);
-      configureNumReduceTasks(job);
+      configureNumTasks(job);
       propagateOptionsToJob(job);
       job.setMapperClass(getMapperClass());
       job.setMapOutputKeyClass(LongWritable.class);

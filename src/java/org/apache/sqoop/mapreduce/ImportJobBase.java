@@ -239,8 +239,7 @@ public class ImportJobBase extends JobBase {
       configureInputFormat(job, tableName, tableClassName, splitByCol);
       configureOutputFormat(job, tableName, tableClassName);
       configureMapper(job, tableName, tableClassName);
-      configureNumMapTasks(job);
-      configureNumReduceTasks(job);
+      configureNumTasks(job);
       cacheJars(job, getContext().getConnManager());
 
       jobSetup(job);

@@ -397,8 +397,7 @@ public class ExportJobBase extends JobBase {
       configureInputFormat(job, tableName, tableClassName, null);
       configureOutputFormat(job, tableName, tableClassName);
       configureMapper(job, tableName, tableClassName);
-      configureNumMapTasks(job);
-      configureNumReduceTasks(job);
+      configureNumTasks(job);
       cacheJars(job, context.getConnManager());
 
       jobSetup(job);

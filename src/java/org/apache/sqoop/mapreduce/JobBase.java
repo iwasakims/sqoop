@@ -285,6 +285,16 @@ public class JobBase {
   }
 
   /**
+   * Configure the number of map/reduce tasks to use in the job,
+   * returning the number of map tasks for backward compatibility.
+   */
+  protected int configureNumTasks(Job job) throws IOException {
+    int numMapTasks = configureNumMapTasks(job);
+    configureNumReduceTasks(job);
+    return numMapTasks;
+  }
+
+  /**
    * Configure the number of map tasks to use in the job.
    */
   protected int configureNumMapTasks(Job job) throws IOException {
