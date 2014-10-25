@@ -35,8 +35,8 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
-import org.apache.sqoop.lib.SqoopRecord;
 import org.apache.hadoop.mapreduce.Mapper.Context;
+import org.apache.sqoop.lib.SqoopRecord;
 import org.apache.sqoop.mapreduce.AutoProgressMapper;
 import org.apache.sqoop.mapreduce.db.DBConfiguration;
 import org.apache.sqoop.util.LoggingUtils;
@@ -202,10 +202,10 @@ public class PGBulkloadExportMapper
 
   protected void cleanup(Context context)
     throws IOException, InterruptedException {
-    LongWritable taskid =
-      new LongWritable(context.getTaskAttemptID().getTaskID().getId());
-    context.write(taskid, new Text(tmpTableName));
-
+    int taskId = context.getTaskAttemptID().getTaskID().getId();
+    int numReduceTasks = conf.getInt("pgbulkload.reduces", 1);
+    context.write(new LongWritable(taskId % numReduceTasks),
+                  new Text(tmpTableName));
     if (writer != null) {
       writer.close();
     }
