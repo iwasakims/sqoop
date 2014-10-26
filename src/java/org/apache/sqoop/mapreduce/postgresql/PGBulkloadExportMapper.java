@@ -202,10 +202,10 @@ public class PGBulkloadExportMapper
 
   protected void cleanup(Context context)
     throws IOException, InterruptedException {
-    int taskId = context.getTaskAttemptID().getTaskID().getId();
-    int numReduceTasks = conf.getInt("pgbulkload.reduces", 1);
-    context.write(new LongWritable(taskId % numReduceTasks),
-                  new Text(tmpTableName));
+    LongWritable taskid =
+        new LongWritable(context.getTaskAttemptID().getTaskID().getId());
+    context.write(taskid, new Text(tmpTableName));
+
     if (writer != null) {
       writer.close();
     }

@@ -191,8 +191,6 @@ public class PGBulkloadExportJob extends ExportJobBase {
     if (job.getNumReduceTasks() < 1) {
       job.setNumReduceTasks(1);
     }
-    job.getConfiguration()
-       .setInt("pgbulkload.reduces", job.getNumReduceTasks());
     return job.getNumReduceTasks();
   }
 
